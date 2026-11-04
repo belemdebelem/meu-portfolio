@@ -259,10 +259,9 @@
   if (carousel) {
     const track = carousel.querySelector("[data-carousel-track]");
     const slides = Array.from(carousel.querySelectorAll(".talk-slide"));
-    const previousButton = carousel.querySelector("[data-carousel-prev]");
-    const nextButton = carousel.querySelector("[data-carousel-next]");
+    const previousButtons = Array.from(carousel.querySelectorAll("[data-carousel-prev]"));
+    const nextButtons = Array.from(carousel.querySelectorAll("[data-carousel-next]"));
     const dotsContainer = carousel.querySelector("[data-carousel-dots]");
-    const currentLabel = carousel.querySelector("[data-carousel-current]");
     const status = carousel.querySelector("[data-carousel-status]");
     let currentIndex = 0;
     let touchStartX = null;
@@ -289,6 +288,14 @@
     });
 
     function goToSlide(index) {
+      const activeElement = document.activeElement;
+      const activeControl = activeElement && activeElement.closest
+        ? activeElement.closest("[data-carousel-prev], [data-carousel-next]")
+        : null;
+      const focusControl = activeControl
+        ? (activeControl.hasAttribute("data-carousel-prev") ? "prev" : "next")
+        : null;
+
       currentIndex = (index + slides.length) % slides.length;
       track.style.transform = "translateX(-" + currentIndex * 100 + "%)";
 
@@ -309,10 +316,6 @@
         }
       });
 
-      if (currentLabel) {
-        currentLabel.textContent = String(currentIndex + 1).padStart(2, "0");
-      }
-
       if (status) {
         const activeTitle = slides[currentIndex].querySelector("h3");
         status.textContent =
@@ -322,19 +325,26 @@
           slides.length +
           (activeTitle ? ": " + activeTitle.textContent.trim() : "");
       }
+
+      if (focusControl) {
+        const target = slides[currentIndex].querySelector(
+          focusControl === "prev" ? "[data-carousel-prev]" : "[data-carousel-next]"
+        );
+        if (target) target.focus({ preventScroll: true });
+      }
     }
 
-    if (previousButton) {
-      previousButton.addEventListener("click", function () {
+    previousButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
         goToSlide(currentIndex - 1);
       });
-    }
+    });
 
-    if (nextButton) {
-      nextButton.addEventListener("click", function () {
+    nextButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
         goToSlide(currentIndex + 1);
       });
-    }
+    });
 
     carousel.addEventListener("keydown", function (event) {
       if (event.key === "ArrowLeft") {
