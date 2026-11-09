@@ -211,23 +211,10 @@ ul {
   text-decoration: none;
 }
 
-.brand-mark {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-  color: var(--lime-cream);
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  font-family: var(--mono);
-  font-size: 0.71rem;
-  letter-spacing: 0.04em;
-}
-
-.brand-name {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  line-height: 1;
+.brand-logo {
+  display: block;
+  width: auto;
+  height: 42px;
 }
 
 .site-nav {
@@ -399,7 +386,9 @@ ul {
   z-index: 1;
   width: 100%;
   height: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: 70% 30%;
   border: 1px solid rgba(217, 237, 146, 0.45);
   border-radius: 50%;
   filter: saturate(0.92) contrast(1.03);
@@ -1352,16 +1341,10 @@ ul {
   line-height: 1.65;
 }
 
-.footer-mark {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: 2.6rem;
-  line-height: 0.9;
-}
-
-.footer-mark span {
-  color: var(--lime-cream);
+.footer-logo {
+  display: block;
+  width: auto;
+  height: 90px;
 }
 
 .footer-nav {
@@ -1733,8 +1716,8 @@ ul {
 }
 
 @media (max-width: 640px) {
-  .brand-name {
-    display: none;
+  .brand-logo {
+    height: 34px;
   }
 
   .hero h1 {
